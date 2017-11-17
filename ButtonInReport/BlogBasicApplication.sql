@@ -27,7 +27,7 @@ prompt APPLICATION 58757 - BlogPostRenderingButtonInReport
 -- Application Export:
 --   Application:     58757
 --   Name:            BlogPostRenderingButtonInReport
---   Date and Time:   20:27 Friday November 17, 2017
+--   Date and Time:   21:04 Friday November 17, 2017
 --   Exported By:     THDEVELOPAPEX@GMAIL.COM
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -40,6 +40,7 @@ prompt APPLICATION 58757 - BlogPostRenderingButtonInReport
 --     Items:                    1
 --     Regions:                  2
 --     Buttons:                  1
+--     Dynamic Actions:          1
 --   Shared Components:
 --     Logic:
 --     Navigation:
@@ -107,7 +108,7 @@ wwv_flow_api.create_flow(
 ,p_csv_encoding=>'Y'
 ,p_auto_time_zone=>'N'
 ,p_last_updated_by=>'THDEVELOPAPEX@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20171117202544'
+,p_last_upd_yyyymmddhh24miss=>'20171117210435'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_ui_type_name => null
 );
@@ -8753,7 +8754,7 @@ begin
 wwv_flow_api.create_page(
  p_id=>1
 ,p_user_interface_id=>wwv_flow_api.id(36155470970585405846)
-,p_name=>'Home'
+,p_name=>'Button in Report'
 ,p_page_mode=>'NORMAL'
 ,p_step_title=>'Home'
 ,p_step_sub_title=>'Home'
@@ -8761,12 +8762,11 @@ wwv_flow_api.create_page(
 ,p_first_item=>'NO_FIRST_ITEM'
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
-,p_dialog_chained=>'Y'
 ,p_overwrite_navigation_list=>'N'
 ,p_page_is_public_y_n=>'N'
 ,p_cache_mode=>'NOCACHE'
 ,p_last_updated_by=>'THDEVELOPAPEX@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20171117202544'
+,p_last_upd_yyyymmddhh24miss=>'20171117210435'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(35199036327490159910)
@@ -8868,11 +8868,12 @@ wwv_flow_api.create_page_button(
 ,p_button_sequence=>20
 ,p_button_plug_id=>wwv_flow_api.id(35199036462493159911)
 ,p_button_name=>'SAVE_SET_VALUE_IN_SESSION'
-,p_button_action=>'SUBMIT'
+,p_button_action=>'DEFINED_BY_DA'
 ,p_button_template_options=>'#DEFAULT#'
 ,p_button_template_id=>wwv_flow_api.id(36155460127630405825)
 ,p_button_image_alt=>'Save Value in Session'
 ,p_button_position=>'BODY'
+,p_warn_on_unsaved_changes=>null
 ,p_grid_new_row=>'N'
 ,p_grid_new_column=>'Y'
 );
@@ -8890,6 +8891,27 @@ wwv_flow_api.create_page_item(
 ,p_attribute_02=>'N'
 ,p_attribute_04=>'TEXT'
 ,p_attribute_05=>'BOTH'
+);
+wwv_flow_api.create_page_da_event(
+ p_id=>wwv_flow_api.id(35199037146215159918)
+,p_name=>'set to set value in session sate'
+,p_event_sequence=>10
+,p_triggering_element_type=>'BUTTON'
+,p_triggering_button_id=>wwv_flow_api.id(35199036663162159913)
+,p_bind_type=>'bind'
+,p_bind_event_type=>'click'
+);
+wwv_flow_api.create_page_da_action(
+ p_id=>wwv_flow_api.id(35199037205496159919)
+,p_event_id=>wwv_flow_api.id(35199037146215159918)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_EXECUTE_PLSQL_CODE'
+,p_attribute_01=>'null;'
+,p_attribute_02=>'P1_TO_SET_VALUE'
+,p_stop_execution_on_error=>'Y'
+,p_wait_for_result=>'Y'
 );
 end;
 /
