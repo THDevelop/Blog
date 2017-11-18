@@ -27,7 +27,7 @@ prompt APPLICATION 58757 - BlogPostRenderingButtonInReport
 -- Application Export:
 --   Application:     58757
 --   Name:            BlogPostRenderingButtonInReport
---   Date and Time:   21:04 Friday November 17, 2017
+--   Date and Time:   00:23 Saturday November 18, 2017
 --   Exported By:     THDEVELOPAPEX@GMAIL.COM
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -38,6 +38,7 @@ prompt APPLICATION 58757 - BlogPostRenderingButtonInReport
 -- Application Statistics:
 --   Pages:                      1
 --     Items:                    1
+--     Processes:                1
 --     Regions:                  2
 --     Buttons:                  1
 --     Dynamic Actions:          1
@@ -108,7 +109,7 @@ wwv_flow_api.create_flow(
 ,p_csv_encoding=>'Y'
 ,p_auto_time_zone=>'N'
 ,p_last_updated_by=>'THDEVELOPAPEX@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20171117210435'
+,p_last_upd_yyyymmddhh24miss=>'20171118002304'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_ui_type_name => null
 );
@@ -8761,16 +8762,21 @@ wwv_flow_api.create_page(
 ,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
 ,p_first_item=>'NO_FIRST_ITEM'
 ,p_autocomplete_on_off=>'OFF'
+,p_inline_css=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'.SET{',
+'    margin-left: 10px;',
+'}'))
 ,p_page_template_options=>'#DEFAULT#'
 ,p_overwrite_navigation_list=>'N'
 ,p_page_is_public_y_n=>'N'
 ,p_cache_mode=>'NOCACHE'
 ,p_last_updated_by=>'THDEVELOPAPEX@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20171117210435'
+,p_last_upd_yyyymmddhh24miss=>'20171118002304'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(35199036327490159910)
 ,p_plug_name=>'Report'
+,p_region_name=>'REPORT-WITH-BUTTON'
 ,p_region_template_options=>'#DEFAULT#'
 ,p_plug_template=>wwv_flow_api.id(36155436866945405806)
 ,p_plug_display_sequence=>20
@@ -8778,8 +8784,8 @@ wwv_flow_api.create_page_plug(
 ,p_plug_display_point=>'BODY'
 ,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
 'select EMPLOYEES.EMPID as EMPID,',
-'    EMPLOYEES.NAME as NAME,',
-'    EMPLOYEES.SALARY as SALARY ',
+'       EMPLOYEES.NAME as NAME,',
+'       EMPLOYEES.SALARY as SALARY',
 ' from EMPLOYEES EMPLOYEES'))
 ,p_plug_source_type=>'NATIVE_IR'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
@@ -8851,6 +8857,17 @@ wwv_flow_api.create_worksheet_column(
 ,p_column_type=>'NUMBER'
 ,p_column_alignment=>'RIGHT'
 );
+wwv_flow_api.create_worksheet_rpt(
+ p_id=>wwv_flow_api.id(36164878468907786887)
+,p_application_user=>'APXWS_DEFAULT'
+,p_report_seq=>10
+,p_report_alias=>'361648785'
+,p_status=>'PUBLIC'
+,p_is_default=>'Y'
+,p_display_rows=>50
+,p_report_columns=>'EMPID:NAME:SALARY'
+,p_flashback_enabled=>'N'
+);
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(35199036462493159911)
 ,p_plug_name=>'Parameter'
@@ -8912,6 +8929,18 @@ wwv_flow_api.create_page_da_action(
 ,p_attribute_02=>'P1_TO_SET_VALUE'
 ,p_stop_execution_on_error=>'Y'
 ,p_wait_for_result=>'Y'
+);
+wwv_flow_api.create_page_process(
+ p_id=>wwv_flow_api.id(35199037829466159925)
+,p_process_sequence=>10
+,p_process_point=>'ON_DEMAND'
+,p_process_type=>'NATIVE_PLSQL'
+,p_process_name=>'save_value'
+,p_process_sql_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'update employees',
+'set salary = apex_application.g_x02',
+'where empid = apex_application.g_x01;'))
+,p_error_display_location=>'INLINE_IN_NOTIFICATION'
 );
 end;
 /
